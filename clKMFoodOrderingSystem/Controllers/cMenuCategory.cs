@@ -56,7 +56,36 @@ namespace clKMFoodOrderingSystem.Controllers
             return dt;
         }
 
-   
+        public static int UpdateMenuCategory(mMenuCategory pMenuCategory)
+        {
+
+            int isSucess = 0;
+
+            using (SqlConnection con = new SqlConnection(Global.connString))
+            {
+                con.Open();
+
+                using (SqlCommand command = new SqlCommand("UPDATE tblMenuCategory SET  [MenuCategoryName] = @MenuCategoryName, [RestaurantID] = @RestaurantID, [CategoryImage] = @CategoryImage " +
+                                                             " [IsActive] = @IsActive WHERE MenuCategoryID = @MenuCategoryID ", con))
+
+                {
+                    command.Parameters.AddWithValue("@MenuCategoryID", pMenuCategory.MenuCategoryID);
+                    command.Parameters.AddWithValue("@MenuCategoryName", pMenuCategory.MenuCategoryName);
+                    command.Parameters.AddWithValue("@RestaurantID", pMenuCategory.RestaurantID);
+                    command.Parameters.AddWithValue("@CategoryImage", pMenuCategory.CategoryImage);
+                    command.Parameters.AddWithValue("@IsActive", pMenuCategory.IsActive);
+
+
+                    isSucess = command.ExecuteNonQuery();
+
+
+                }
+            }
+
+            return isSucess;
+
+
+        }
 
 
         public static int AddRestaurantMenuCategory(mMenuCategory pMenuCategory)

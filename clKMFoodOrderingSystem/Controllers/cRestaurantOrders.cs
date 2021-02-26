@@ -69,12 +69,13 @@ namespace clKMFoodOrderingSystem.Controllers
             {
                 con.Open();
 
-                using (SqlCommand command = new SqlCommand("INSERT INTO tblRestaurantOrders (SessionID, RestaurantID, TableNumber, GrandTotal, OrderDate, IsProcessed, CustomerName, CustomerEmail, CustomerPhone, OrderNotes) " +
-                                                            " VALUES (@SessionID, @RestaurantID, @TableNumber, @GrandTotal, @OrderDate, @IsProcessed, @CustomerName, @CustomerEmail, @CustomerPhone, @OrderNotes);  SELECT SCOPE_IDENTITY()  ", con))
+                using (SqlCommand command = new SqlCommand("INSERT INTO tblRestaurantOrders (SessionID, RestaurantID ,SubscriptionID, TableNumber, GrandTotal, OrderDate, IsProcessed, CustomerName, CustomerEmail, CustomerPhone, OrderNotes) " +
+                                                            " VALUES (@SessionID, @RestaurantID, @SubscriptionID, @TableNumber, @GrandTotal, @OrderDate, @IsProcessed, @CustomerName, @CustomerEmail, @CustomerPhone, @OrderNotes);  SELECT SCOPE_IDENTITY()  ", con))
                 {
                     //command.Parameters.AddWithValue("@OrderID", pRestaurantOrders.OrderID);
                     command.Parameters.AddWithValue("@SessionID", pRestaurantOrders.SessionID);
                     command.Parameters.AddWithValue("@RestaurantID", pRestaurantOrders.RestaurantID);
+                    command.Parameters.AddWithValue("@SubscriptionID", pRestaurantOrders.SubscriptionID);
                     command.Parameters.AddWithValue("@TableNumber", pRestaurantOrders.TableNumber);
                     command.Parameters.AddWithValue("@GrandTotal", pRestaurantOrders.GrandTotal);
                      command.Parameters.AddWithValue("@OrderDate", pRestaurantOrders.OrderDate);

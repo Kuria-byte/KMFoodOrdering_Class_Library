@@ -18,7 +18,7 @@ namespace clKMFoodOrderingSystem.UtilityClasses
 
             msg.From = new MailAddress(Global.gFromEmail);
             msg.To.Add(pEmail);
-            msg.Subject = "Registration Verification : KMFoodOrderingSystem.com";
+            msg.Subject = "Registration Verification : kmfoodscan.com";
 
 
             string strBody = EmailMsg;
@@ -55,7 +55,7 @@ namespace clKMFoodOrderingSystem.UtilityClasses
 
             msg.From = new MailAddress(Global.gFromEmail);
             msg.To.Add(pEmail);
-            msg.Subject = "Chagne Password  : KMFoodOrderingSystem.com";
+            msg.Subject = "Chagne Password  : kmfoodscan.com";
 
             string strBody = EmailMsg;
             msg.IsBodyHtml = true;
@@ -66,13 +66,15 @@ namespace clKMFoodOrderingSystem.UtilityClasses
             using (SmtpClient client = new SmtpClient())
             {
                 client.EnableSsl = true;
-                client.UseDefaultCredentials = true;
+                client.UseDefaultCredentials = false;
                 client.Credentials = new NetworkCredential(Global.gFromEmail, Global.gFromEmailPassword);
                 client.Host = "smtp.gmail.com";
                 client.Port = 587;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
                 client.Send(msg);
+
+            
             }
 
 

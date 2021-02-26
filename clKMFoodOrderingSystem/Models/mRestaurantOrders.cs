@@ -11,6 +11,7 @@ namespace clKMFoodOrderingSystem.Models
         public int OrderID;
         public string SessionID;
         public int RestaurantID;
+        public int SubscriptionID;
         public int TableNumber;
         public decimal GrandTotal;
         public DateTime OrderDate;

@@ -66,7 +66,36 @@ namespace clKMFoodOrderingSystem.Controllers
             return dt;
         }
 
-     
+        public static DataTable GetRestaurantInfoByRestaurantID(int pRestaurantID)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection con = new SqlConnection(Global.connString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(" SELECT *, tblRestaurant.RestaurantID, tblSubscriptions.SubscriptionID, tblRestaurantType.RestaurantTypeID, tblRestaurantType.RestaurantType , tblRestaurant.RestaurantName, tblRestaurant.RestaurantDescription, tblRestaurant.RestaurantEmailAddress, tblRestaurant.RestaurantAddress, tblRestaurant.CountryID, tblRestaurant.StateID, tblRestaurant.CityID, tblRestaurant.RestaurantContactNumber, tblRestaurant.RestaurantAddedOn, tblRestaurant.IsActive, tblRestaurant.RestaurantLogo," +
+                                                       " tblRestaurant.RestaurantAddress + ', ' + countries.name + ', ' + states.name + ', ' +countries.name + ', ' + cities.name as CompleteAddress FROM   tblRestaurant  INNER JOIN" +
+                                                       " tblRestaurantType ON tblRestaurant.RestaurantTypeID = tblRestaurantType.RestaurantTypeID INNER JOIN" +
+                                                       " countries ON tblRestaurant.CountryID = countries.id INNER JOIN" +
+                                                       " cities ON tblRestaurant.CityID = cities.id INNER JOIN " +
+                                                       " states ON tblRestaurant.StateID = states.id " +
+                                                       " INNER JOIN tblSubscriptions ON tblSubscriptions.RestaurantID = tblRestaurant.RestaurantID" +
+                                                       " WHERE tblRestaurant.RestaurantID = @RestaurantID AND tblSubscriptions.IsActive=1", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("@RestaurantID", pRestaurantID);
+                        sda.Fill(dt);
+
+
+                    }
+                }
+            }
+            return dt;
+        }
+
+
 
 
 
@@ -123,7 +152,7 @@ namespace clKMFoodOrderingSystem.Controllers
 
                 using (SqlCommand command = new SqlCommand("UPDATE tblRestaurant SET  [RestaurantName] = @RestaurantName,[RestaurantTypeID] = @RestaurantTypeID, [RestaurantDescription] = @RestaurantDescription, [RestaurantContactNumber] = @RestaurantContactNumber, [RestaurantEmailAddress] = @RestaurantEmailAddress, " +
                                                              " [RestaurantAddress] = @RestaurantAddress, [CityID] = @CityID,  [StateID] = @StateID, [CountryID] = @CountryID, [RestaurantLogo] = @RestaurantLogo, [RestaurantAddedOn] = @RestaurantAddedOn,  " +
-                                                             " [isActive] = @isActive, [BusinessUserID] = @BusinessUserID  WHERE RestaurantID = @RestaurantID ", con))
+                                                             " [isActive] = @isActive , [BusinessUserID]= @BusinessUserID WHERE RestaurantID = @RestaurantID ", con))
 
                 {
                     command.Parameters.AddWithValue("@RestaurantID", pRestaurant.RestaurantID);

@@ -157,7 +157,7 @@ namespace clKMFoodOrderingSystem.Controllers
             {
                 con.Open();
 
-                using (SqlCommand command = new SqlCommand("UPDATE tblMenu SET  [MenuName] = @MenuName, [RestaurantID] = @RestaurantID, [MenuCategoryID] = @MenuCategoryID, [MenuDescription] = @MenuDescription, [MenuIngredients] = @MenuIngredients, [Price] = @Price,[MenuPicture] = @MenuPicture, " +
+                using (SqlCommand command = new SqlCommand("UPDATE tblMenu SET  [MenuName] = @MenuName, [RestaurantID] = @RestaurantID, [MenuCategoryID] = @MenuCategoryID, [LongMenuDescription]=@LongMenuDescription, [ShortMenuDescription]=@ShortMenuDescription, [MenuIngredients] = @MenuIngredients, [Price] = @Price,[MenuPicture] = @MenuPicture, " +
                                                              " [IsActive] = @IsActive WHERE MenuID = @MenuID ", con))
 
                 {
