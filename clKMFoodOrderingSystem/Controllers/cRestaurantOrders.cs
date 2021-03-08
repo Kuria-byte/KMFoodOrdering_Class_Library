@@ -98,44 +98,7 @@ namespace clKMFoodOrderingSystem.Controllers
 
         }
 
-        //public static int UpdateRestaurantOrder(mRestaurantOrders pRestaurantOrders)
-        //{
-
-        //    int isSucess = 0;
-
-        //    using (SqlConnection con = new SqlConnection(Global.connString))
-        //    {
-        //        con.Open();
-
-        //        using (SqlCommand command = new SqlCommand("UPDATE tblRestaurantOrders SET  [SessionID] = @SessionID, [RestaurantID] = @RestaurantID, [TableNumber] = @TableNumber, [OrderDate] = @OrderDate, [IsProcessed] = @IsProcessed, [CustomerName] = @CustomerName, [CustomerEmail] = @CustomerEmail, " +
-        //                                                     " [CustomerPhone] = @CustomerPhone, [OrderNotes] = @OrderNotes WHERE OrderID = @OrderID ", con))
-
-        //        {
-        //            //command.Parameters.AddWithValue("@OrderID", pRestaurantOrders.OrderID);
-        //            command.Parameters.AddWithValue("@SessionID", pRestaurantOrders.SessionID);
-        //            command.Parameters.AddWithValue("@RestaurantID", pRestaurantOrders.RestaurantID);
-        //            command.Parameters.AddWithValue("@TableNumber", pRestaurantOrders.TableNumber);
-        //            command.Parameters.AddWithValue("@GrandTotal", pRestaurantOrders.GrandTotal);
-        //            command.Parameters.AddWithValue("@OrderDate", pRestaurantOrders.OrderDate);
-        //            command.Parameters.AddWithValue("@IsProcessed", pRestaurantOrders.IsProcessed);
-        //            command.Parameters.AddWithValue("@CustomerName", pRestaurantOrders.CustomerName);
-        //            command.Parameters.AddWithValue("@CustomerEmail", pRestaurantOrders.CustomerEmail);
-        //            command.Parameters.AddWithValue("@CustomerPhone", pRestaurantOrders.CustomerPhone);
-        //            command.Parameters.AddWithValue("@OrderNotes", pRestaurantOrders.OrderNotes);
-
-
-
-        //            isSucess = command.ExecuteNonQuery();
-
-
-        //        }
-        //    }
-
-        //    return isSucess;
-
-
-        //}
-
+    
         public static DataTable GetOrdersWithWhereClause(string _where, string _orderby)
         {
             DataTable dt = new DataTable();
@@ -180,6 +143,32 @@ namespace clKMFoodOrderingSystem.Controllers
             }
             return dt;
 
+        }
+
+
+        public static DataTable GetDistinctCustomerOrdersbyRestaurantID(int _restaurantID )
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection con = new SqlConnection(Global.connString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand("SELECT distinct CustomerEmail, CustomerName, CustomerPhone, count(CustomerEmail) as ordercount" +
+                    " FROM tblRestaurantOrders Where tblRestaurantOrders.RestaurantID = @RestaurantID AND CustomerEmail != ''" +
+                    " GROUP BY CustomerEmail, CustomerName, CustomerPhone", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        cmd.Parameters.AddWithValue("@RestaurantID", _restaurantID);
+                        cmd.CommandType = CommandType.Text;
+
+                        sda.Fill(dt);
+
+
+                    }
+                }
+            }
+            return dt;
         }
 
         public static int UpdateOrderStatus(int _iOrderID, int _IsProcessed)

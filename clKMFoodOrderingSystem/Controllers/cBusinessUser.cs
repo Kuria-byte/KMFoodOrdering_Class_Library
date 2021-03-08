@@ -68,7 +68,7 @@ namespace clKMFoodOrderingSystem.Controllers
                                     collectmBusinessUser.BusinessUserEmail = reader.GetValue(reader.GetOrdinal("BusinessUserEmail")).ToString();
                                 }
 
-                                //collectmBusinessUser.LastLogin = reader.GetDateTime(reader.GetOrdinal("LastLogin")); //reader.GetDateTime(16);
+                                collectmBusinessUser.BusinessSignupDate = reader.GetDateTime(reader.GetOrdinal("BusinessSignupDate"));
                                 collectmBusinessUser.IsActive = reader.GetBoolean(reader.GetOrdinal("IsActive"));   //reader.GetBoolean(17);
                                 collectmBusinessUser.IsEmailVerified = reader.GetBoolean(reader.GetOrdinal("IsEmailVerified"));   //reader.GetBoolean(17);
                             }
@@ -181,7 +181,7 @@ namespace clKMFoodOrderingSystem.Controllers
                     command.Parameters.AddWithValue("@BusinessSignupDate", DateTime.Now);
 
 
-                    isSucess = Convert.ToInt32(command.ExecuteScalar());
+                    
 
 
                 }
@@ -203,17 +203,16 @@ namespace clKMFoodOrderingSystem.Controllers
             {
                 con.Open();
 
-                using (SqlCommand command = new SqlCommand("UPDATE tblRestaurantBusinessUser SET  [BusinessUserName] = @BusinessUserName, [BusinessUserEmail] = @BusinessUserEmail, [BusinessUserPassword] = @BusinessUserPassword, " +
-                                                            "[IsEmailVerified] = @IsEmailVerified, [IsActive] = @IsActive WHERE BusinessUserID = @BusinessUserID ", con))
+                using (SqlCommand command = new SqlCommand("UPDATE tblRestaurantBusinessUser SET  [BusinessUserName] = @BusinessUserName, [BusinessUserEmail] = @BusinessUserEmail " +
+                                                            " WHERE BusinessUserID = @BusinessUserID ", con))
 
                 {
 
                     command.Parameters.AddWithValue("@BusinessUserID", pBusinessUser.BusinessUserID);
                     command.Parameters.AddWithValue("@BusinessUserName", pBusinessUser.BusinessUserName);
                     command.Parameters.AddWithValue("@BusinessUserEmail", pBusinessUser.BusinessUserEmail);
-                    command.Parameters.AddWithValue("@BusinessUserPassword", pBusinessUser.BusinessUserPassword);
-                    command.Parameters.AddWithValue("@IsEmailVerified", pBusinessUser.IsEmailVerified);
-                    command.Parameters.AddWithValue("@IsActive", pBusinessUser.IsActive);
+                   
+                   
 
                     isSucess = command.ExecuteNonQuery();
 

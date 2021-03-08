@@ -80,7 +80,7 @@ namespace clKMFoodOrderingSystem.Controllers
                                                        " cities ON tblRestaurant.CityID = cities.id INNER JOIN " +
                                                        " states ON tblRestaurant.StateID = states.id " +
                                                        " INNER JOIN tblSubscriptions ON tblSubscriptions.RestaurantID = tblRestaurant.RestaurantID" +
-                                                       " WHERE tblRestaurant.RestaurantID = @RestaurantID AND tblSubscriptions.IsActive=1", con))
+                                                       " WHERE tblRestaurant.RestaurantID = @RestaurantID ", con))
                 {
                     using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                     {
