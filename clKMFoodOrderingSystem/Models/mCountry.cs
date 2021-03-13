@@ -12,5 +12,8 @@ namespace clKMFoodOrderingSystem.Models
         public string sortname;
         public string name;
         public string phonecode;
+        public string LanguageCountryCode;
+        public string TimeZone;
+        public double USDConversion;
     }
 }

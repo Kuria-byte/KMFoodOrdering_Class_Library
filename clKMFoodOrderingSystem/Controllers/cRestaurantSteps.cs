@@ -56,6 +56,29 @@ namespace clKMFoodOrderingSystem.Controllers
             return dt;
         }
 
+        public static DataTable GetRestaurantStepsbyRestaurantID(int _RestaurantID)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection con = new SqlConnection(Global.connString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand("SELECT  * FROM   tblRestaurantOnboardingSteps WHERE RestaurantID = @RestaurantID  ORDER BY RestaurantID ASC", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("@RestaurantID", _RestaurantID);
+
+                        sda.Fill(dt);
+
+
+                    }
+                }
+            }
+            return dt;
+        }
+
 
         public static int AddRestaurantSteps(mRestaurantSteps pRestaurantSteps)
         {
@@ -120,10 +143,7 @@ namespace clKMFoodOrderingSystem.Controllers
 
                 }
             }
-
             return isSucess;
-
-
         }
 
 

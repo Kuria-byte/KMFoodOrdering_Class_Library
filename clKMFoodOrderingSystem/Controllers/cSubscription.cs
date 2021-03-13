@@ -185,7 +185,7 @@ namespace clKMFoodOrderingSystem.Controllers
 
         }
 
-        public static int UpdateSubscriptionStatus(int _StatusID, int _BusinessUserID, string _attachment)
+        public static int UpdateSubscriptionStatus(int _StatusID, int _BusinessUserID, string _attachment, int _SubscriptionID)
         {
 
             int isSucess = 0;
@@ -194,12 +194,13 @@ namespace clKMFoodOrderingSystem.Controllers
             {
                 con.Open();
 
-                using (SqlCommand command = new SqlCommand("Update tblSubscriptions set StatusID = @StatusID , AttachedPaymentReceipt = @AttachedPaymentReceipt WHERE BusinessUserID = @BusinessUserID", con))
+                using (SqlCommand command = new SqlCommand("Update tblSubscriptions set StatusID = @StatusID , AttachedPaymentReceipt = @AttachedPaymentReceipt WHERE BusinessUserID = @BusinessUserID AND SubscriptionID =@SubscriptionID ", con))
 
                 {
                     command.Parameters.AddWithValue("@BusinessUserID", _BusinessUserID);                   
                     command.Parameters.AddWithValue("@StatusID", _StatusID);
                     command.Parameters.AddWithValue("@AttachedPaymentReceipt", _attachment);
+                    command.Parameters.AddWithValue("@SubscriptionID", _SubscriptionID);
 
 
                     isSucess = command.ExecuteNonQuery();

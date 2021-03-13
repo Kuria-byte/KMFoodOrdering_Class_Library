@@ -42,7 +42,9 @@ namespace clKMFoodOrderingSystem.Controllers
             {
                 con.Open();
 
-                using (SqlCommand command = new SqlCommand("select * from tblRestaurantBusinessUser where BusinessUserEmail =@BusinessUserEmail and BusinessUserPassword=@BusinessUserPassword", con))
+                using (SqlCommand command = new SqlCommand("select * from tblRestaurantBusinessUser LEFT JOIN tblRestaurant On tblRestaurantBusinessUser.BusinessUserID = tblRestaurant.BusinessUserID " +
+                                                            " LEFT JOIN countries On tblRestaurant.CountryID = countries.id " +
+                                                            " where tblRestaurantBusinessUser.BusinessUserEmail = @BusinessUserEmail and tblRestaurantBusinessUser.BusinessUserPassword = @BusinessUserPassword", con))
                 {
                     command.Parameters.AddWithValue("@BusinessUserEmail", pBusinessUserEmail);
                     command.Parameters.AddWithValue("@BusinessUserPassword", pBusinessUserPassword);
@@ -68,9 +70,24 @@ namespace clKMFoodOrderingSystem.Controllers
                                     collectmBusinessUser.BusinessUserEmail = reader.GetValue(reader.GetOrdinal("BusinessUserEmail")).ToString();
                                 }
 
+
+
                                 collectmBusinessUser.BusinessSignupDate = reader.GetDateTime(reader.GetOrdinal("BusinessSignupDate"));
                                 collectmBusinessUser.IsActive = reader.GetBoolean(reader.GetOrdinal("IsActive"));   //reader.GetBoolean(17);
                                 collectmBusinessUser.IsEmailVerified = reader.GetBoolean(reader.GetOrdinal("IsEmailVerified"));   //reader.GetBoolean(17);
+
+                                if (reader.GetValue(reader.GetOrdinal("LanguageCountryCode")) == null)
+                                {
+                                    collectmBusinessUser.CountryCulture = "en-US";
+                                    collectmBusinessUser.CountryTimeZone = "Eastern Standard Time";
+                                    collectmBusinessUser.USDConversion = 1;
+                                }
+                                else
+                                {
+                                    collectmBusinessUser.CountryCulture = reader.GetValue(reader.GetOrdinal("LanguageCountryCode")).ToString();
+                                    collectmBusinessUser.CountryTimeZone = reader.GetValue(reader.GetOrdinal("TimeZone")).ToString();
+                                    collectmBusinessUser.USDConversion = Convert.ToDouble(reader.GetValue(reader.GetOrdinal("USDConversion")));
+                                }
                             }
                         }
                         else
@@ -170,7 +187,7 @@ namespace clKMFoodOrderingSystem.Controllers
                 con.Open();
 
                 using (SqlCommand command = new SqlCommand("INSERT INTO tblRestaurantBusinessUser ( BusinessUserName, BusinessUserEmail, BusinessUserPassword, IsActive, IsEmailVerified, LastLogin, BusinessSignupDate) " +
-                                                            " VALUES (@BusinessUserName, @BusinessUserEmail, @BusinessUserPassword, @IsActive, @IsEmailVerified, @LastLogin, @BusinessSignupDate)  SELECT SCOPE_IDENTITY() ", con))
+                                                            " VALUES (@BusinessUserName, @BusinessUserEmail, @BusinessUserPassword, @IsActive, @IsEmailVerified, @LastLogin, @BusinessSignupDate);  select CAST(scope_identity() AS int) ", con))
                 {
                     command.Parameters.AddWithValue("@BusinessUserName", pBusinessUser.BusinessUserName);
                     command.Parameters.AddWithValue("@BusinessUserEmail", pBusinessUser.BusinessUserEmail);
@@ -180,8 +197,8 @@ namespace clKMFoodOrderingSystem.Controllers
                     command.Parameters.AddWithValue("@LastLogin", DateTime.Now);
                     command.Parameters.AddWithValue("@BusinessSignupDate", DateTime.Now);
 
+                    isSucess = Convert.ToInt32(command.ExecuteScalar());
 
-                    
 
 
                 }

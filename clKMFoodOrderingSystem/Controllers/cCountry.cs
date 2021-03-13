@@ -1,4 +1,5 @@
-﻿using System;
+﻿using clKMFoodOrderingSystem.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -32,5 +33,40 @@ namespace clKMFoodOrderingSystem.Controllers
             return dt;
         }
 
+
+        public static int UpdateCountry(mCountry pCountry)
+        {
+
+            int isSucess = 0;
+
+            using (SqlConnection con = new SqlConnection(Global.connString))
+            {
+                con.Open();
+
+                using (SqlCommand command = new SqlCommand("UPDATE countries SET  [LanguageCountryCode] = @LanguageCountryCode, [USDConversion] = @USDConversion, [TimeZone] = @TimeZone  " +
+                                                            " WHERE id = @id ", con))
+
+                {
+                    command.Parameters.AddWithValue("@id", pCountry.id);
+                    command.Parameters.AddWithValue("@LanguageCountryCode", pCountry.LanguageCountryCode);
+                    command.Parameters.AddWithValue("@USDConversion", pCountry.USDConversion);
+                    command.Parameters.AddWithValue("@TimeZone", pCountry.TimeZone);
+
+
+
+                    isSucess = command.ExecuteNonQuery();
+
+
+                }
+            }
+
+            return isSucess;
+
+        }
+
     }
+
+    
+
+
 }

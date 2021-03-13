@@ -17,6 +17,9 @@ namespace clKMFoodOrderingSystem.Models
         public string BusinessUserIDEncrypted;
         public DateTime LastLogin;
         public DateTime BusinessSignupDate;
+        public string CountryCulture;
+        public string CountryTimeZone;
+        public double USDConversion;
 
     }
 }
