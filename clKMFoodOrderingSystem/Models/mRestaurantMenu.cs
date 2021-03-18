@@ -15,7 +15,7 @@ namespace clKMFoodOrderingSystem.Models
         public string LongMenuDescription;
         public string ShortMenuDescription;
         public string MenuIngredients;
-        public string Price;
+        public double Price;
         public string MenuPicture;
         public bool IsActive;
     }

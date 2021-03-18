@@ -22,5 +22,6 @@ namespace clKMFoodOrderingSystem.Models
         public DateTime RestaurantAddedOn;
         public bool isActive;
         public int BusinessUserID;
+        public string MessageOnOrderIsReady;
     }
 }

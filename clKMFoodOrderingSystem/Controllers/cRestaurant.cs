@@ -46,7 +46,7 @@ namespace clKMFoodOrderingSystem.Controllers
             using (SqlConnection con = new SqlConnection(Global.connString))
             {
                 con.Open();
-                using (SqlCommand cmd = new SqlCommand(" SELECT  tblRestaurant.RestaurantID, tblRestaurantType.RestaurantTypeID, tblRestaurantType.RestaurantType , tblRestaurant.RestaurantName, tblRestaurant.RestaurantDescription, tblRestaurant.RestaurantEmailAddress, tblRestaurant.RestaurantAddress, tblRestaurant.CountryID, tblRestaurant.StateID, tblRestaurant.CityID, tblRestaurant.RestaurantContactNumber, tblRestaurant.RestaurantAddedOn, tblRestaurant.IsActive, tblRestaurant.RestaurantLogo," +
+                using (SqlCommand cmd = new SqlCommand(" SELECT  tblRestaurant.RestaurantID, tblRestaurantType.RestaurantTypeID, tblRestaurantType.RestaurantType , tblRestaurant.RestaurantName, tblRestaurant.RestaurantDescription, tblRestaurant.RestaurantEmailAddress, tblRestaurant.MessageOnOrderIsReady, tblRestaurant.RestaurantAddress, tblRestaurant.CountryID, tblRestaurant.StateID, tblRestaurant.CityID, tblRestaurant.RestaurantContactNumber, tblRestaurant.RestaurantAddedOn, tblRestaurant.IsActive, tblRestaurant.RestaurantLogo," +
                                                        " tblRestaurant.RestaurantAddress + ', ' + countries.name + ', ' + states.name + ', ' +countries.name + ', ' + cities.name as CompleteAddress FROM   tblRestaurant  INNER JOIN" +
                                                        " tblRestaurantType ON tblRestaurant.RestaurantTypeID = tblRestaurantType.RestaurantTypeID INNER JOIN" +
                                                        " countries ON tblRestaurant.CountryID = countries.id INNER JOIN" +
@@ -109,8 +109,8 @@ namespace clKMFoodOrderingSystem.Controllers
             {
                 con.Open();
 
-                using (SqlCommand command = new SqlCommand("INSERT INTO tblRestaurant (RestaurantName,RestaurantTypeID, RestaurantDescription,RestaurantContactNumber,RestaurantEmailAddress,RestaurantAddress,CityID, CountryID, StateID, RestaurantAddedOn, RestaurantLogo, isActive, BusinessUserID) " +
-                                                            " VALUES (@RestaurantName, @RestaurantTypeID, @RestaurantDescription, @RestaurantContactNumber,@RestaurantEmailAddress,@RestaurantAddress, @CityID,  @CountryID, @StateID, @RestaurantAddedOn, @RestaurantLogo, @isActive, @BusinessUserID); SELECT SCOPE_IDENTITY() ", con))
+                using (SqlCommand command = new SqlCommand("INSERT INTO tblRestaurant (RestaurantName,RestaurantTypeID, RestaurantDescription,RestaurantContactNumber,RestaurantEmailAddress,RestaurantAddress,CityID, CountryID, StateID, RestaurantAddedOn, RestaurantLogo, isActive, BusinessUserID, MessageOnOrderIsReady) " +
+                                                            " VALUES (@RestaurantName, @RestaurantTypeID, @RestaurantDescription, @RestaurantContactNumber,@RestaurantEmailAddress,@RestaurantAddress, @CityID,  @CountryID, @StateID, @RestaurantAddedOn, @RestaurantLogo, @isActive, @BusinessUserID, @MessageOnOrderIsReady); SELECT SCOPE_IDENTITY() ", con))
                 {
                     
                     command.Parameters.AddWithValue("@RestaurantName", pRestaurant.RestaurantName);
@@ -126,6 +126,7 @@ namespace clKMFoodOrderingSystem.Controllers
                     command.Parameters.AddWithValue("@RestaurantAddedOn", DateTime.Now);
                     command.Parameters.AddWithValue("@isActive", pRestaurant.isActive);
                     command.Parameters.AddWithValue("@BusinessUserID", pRestaurant.BusinessUserID);
+                    command.Parameters.AddWithValue("@MessageOnOrderIsReady", pRestaurant.MessageOnOrderIsReady);
 
 
                     isSucess = Convert.ToInt32(command.ExecuteScalar());
@@ -152,7 +153,7 @@ namespace clKMFoodOrderingSystem.Controllers
 
                 using (SqlCommand command = new SqlCommand("UPDATE tblRestaurant SET  [RestaurantName] = @RestaurantName,[RestaurantTypeID] = @RestaurantTypeID, [RestaurantDescription] = @RestaurantDescription, [RestaurantContactNumber] = @RestaurantContactNumber, [RestaurantEmailAddress] = @RestaurantEmailAddress, " +
                                                              " [RestaurantAddress] = @RestaurantAddress, [CityID] = @CityID,  [StateID] = @StateID, [CountryID] = @CountryID, [RestaurantLogo] = @RestaurantLogo, [RestaurantAddedOn] = @RestaurantAddedOn,  " +
-                                                             " [isActive] = @isActive , [BusinessUserID]= @BusinessUserID WHERE RestaurantID = @RestaurantID ", con))
+                                                             " [isActive] = @isActive , [BusinessUserID]= @BusinessUserID, [MessageOnOrderIsReady]=@MessageOnOrderIsReady  WHERE RestaurantID = @RestaurantID ", con))
 
                 {
                     command.Parameters.AddWithValue("@RestaurantID", pRestaurant.RestaurantID);
@@ -169,6 +170,7 @@ namespace clKMFoodOrderingSystem.Controllers
                     command.Parameters.AddWithValue("@RestaurantLogo", pRestaurant.RestaurantLogo);
                     command.Parameters.AddWithValue("@isActive", pRestaurant.isActive);
                     command.Parameters.AddWithValue("@BusinessUserID", pRestaurant.BusinessUserID);
+                    command.Parameters.AddWithValue("@MessageOnOrderIsReady", pRestaurant.MessageOnOrderIsReady);
 
 
                     isSucess = command.ExecuteNonQuery();
