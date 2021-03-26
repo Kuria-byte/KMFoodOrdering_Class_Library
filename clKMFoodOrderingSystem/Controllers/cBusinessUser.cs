@@ -60,6 +60,7 @@ namespace clKMFoodOrderingSystem.Controllers
                                 collectmBusinessUser.BusinessUserID = Convert.ToInt32(reader.GetValue(reader.GetOrdinal("BusinessUserID")));
                                 collectmBusinessUser.BusinessUserIDEncrypted = ucEDOperation.EncryptString(Global.gEDKey, Convert.ToString(reader.GetValue(reader.GetOrdinal("BusinessUserID"))));
                                 collectmBusinessUser.BusinessUserName = reader.GetValue(reader.GetOrdinal("BusinessUserName")).ToString();
+                                collectmBusinessUser.BusinessUserPassword = reader.GetValue(reader.GetOrdinal("BusinessUserPassword")).ToString();
 
                                 if (reader.GetValue(reader.GetOrdinal("BusinessUserEmail")) == null)
                                 {
@@ -76,7 +77,7 @@ namespace clKMFoodOrderingSystem.Controllers
                                 collectmBusinessUser.IsActive = reader.GetBoolean(reader.GetOrdinal("IsActive"));   //reader.GetBoolean(17);
                                 collectmBusinessUser.IsEmailVerified = reader.GetBoolean(reader.GetOrdinal("IsEmailVerified"));   //reader.GetBoolean(17);
 
-                                if (reader.GetValue(reader.GetOrdinal("LanguageCountryCode")) == null)
+                                if (reader.GetValue(reader.GetOrdinal("LanguageCountryCode")) == DBNull.Value)
                                 {
                                     collectmBusinessUser.CountryCulture = "en-US";
                                     collectmBusinessUser.CountryTimeZone = "Eastern Standard Time";
@@ -181,6 +182,15 @@ namespace clKMFoodOrderingSystem.Controllers
         {
 
             int isSucess = 0;
+            
+            if(GetBusinessListWithNoDuplicates(pBusinessUser).Rows.Count > 0)
+            {
+                isSucess = -1;
+            }
+            else
+            {
+
+           
 
             using (SqlConnection con = new SqlConnection(Global.connString))
             {
@@ -205,11 +215,12 @@ namespace clKMFoodOrderingSystem.Controllers
             }
 
 
-
+            }
 
             return isSucess;
 
         }
+
 
         public static int UpdateBusinessUser(mBusinessUser pBusinessUser)
         {
