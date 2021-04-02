@@ -122,6 +122,30 @@ namespace clKMFoodOrderingSystem.Controllers
 
         }
 
+
+        public static DataTable GetKitchenOrders(string _where, string _orderby)
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection con = new SqlConnection(Global.connString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM tblRestaurantOrders INNER JOIN tblRestaurant ON tblRestaurantOrders.RestaurantID = tblRestaurant.RestaurantID " +
+                                                        " INNER JOIN tblRestaurantBusinessUser ON tblRestaurant.BusinessUserID = tblRestaurantBusinessUser.BusinessUserID " +
+                                                        " WHERE " + _where + " AND IsProcessed = 1 ORDER BY " + _orderby + " ", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        sda.Fill(dt);
+
+
+                    }
+                }
+            }
+            return dt;
+
+        }
+
         public static DataTable GetCompleteOrdersAsAdmin( )
         {
             DataTable dt = new DataTable();
