@@ -69,7 +69,7 @@ namespace clKMFoodOrderingSystem.Controllers
             {
                 con.Open();
 
-                using (SqlCommand command = new SqlCommand("INSERT INTO tblRestaurantOrders (SessionID, RestaurantID ,SubscriptionID, TableNumber, GrandTotal, OrderDate, IsProcessed, CustomerName, CustomerEmail, CustomerPhone, OrderNotes) " +
+                using (SqlCommand command = new SqlCommand("INSERT INTO tblRestaurantOrders (SessionID, RestaurantID ,SubscriptionID, TableNumber, DiningExpereince, GrandTotal, OrderDate, IsProcessed, CustomerName, CustomerEmail, CustomerPhone, OrderNotes) " +
                                                             " VALUES (@SessionID, @RestaurantID, @SubscriptionID, @TableNumber, @GrandTotal, @OrderDate, @IsProcessed, @CustomerName, @CustomerEmail, @CustomerPhone, @OrderNotes);  SELECT SCOPE_IDENTITY()  ", con))
                 {
                     //command.Parameters.AddWithValue("@OrderID", pRestaurantOrders.OrderID);
@@ -77,6 +77,7 @@ namespace clKMFoodOrderingSystem.Controllers
                     command.Parameters.AddWithValue("@RestaurantID", pRestaurantOrders.RestaurantID);
                     command.Parameters.AddWithValue("@SubscriptionID", pRestaurantOrders.SubscriptionID);
                     command.Parameters.AddWithValue("@TableNumber", pRestaurantOrders.TableNumber);
+                    command.Parameters.AddWithValue("@DiningExpereince", pRestaurantOrders.DiningExpereince);
                     command.Parameters.AddWithValue("@GrandTotal", pRestaurantOrders.GrandTotal);
                      command.Parameters.AddWithValue("@OrderDate", pRestaurantOrders.OrderDate);
                     command.Parameters.AddWithValue("@IsProcessed", pRestaurantOrders.IsProcessed);
