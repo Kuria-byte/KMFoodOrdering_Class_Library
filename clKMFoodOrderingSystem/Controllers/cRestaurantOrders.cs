@@ -70,7 +70,7 @@ namespace clKMFoodOrderingSystem.Controllers
                 con.Open();
 
                 using (SqlCommand command = new SqlCommand("INSERT INTO tblRestaurantOrders (SessionID, RestaurantID ,SubscriptionID, TableNumber, DiningExpereince, GrandTotal, OrderDate, IsProcessed, CustomerName, CustomerEmail, CustomerPhone, OrderNotes) " +
-                                                            " VALUES (@SessionID, @RestaurantID, @SubscriptionID, @TableNumber, @GrandTotal, @OrderDate, @IsProcessed, @CustomerName, @CustomerEmail, @CustomerPhone, @OrderNotes);  SELECT SCOPE_IDENTITY()  ", con))
+                                                            " VALUES (@SessionID, @RestaurantID, @SubscriptionID, @DiningExpereince, @TableNumber, @GrandTotal, @OrderDate, @IsProcessed, @CustomerName, @CustomerEmail, @CustomerPhone, @OrderNotes);  SELECT SCOPE_IDENTITY()  ", con))
                 {
                     //command.Parameters.AddWithValue("@OrderID", pRestaurantOrders.OrderID);
                     command.Parameters.AddWithValue("@SessionID", pRestaurantOrders.SessionID);
